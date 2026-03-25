@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Maxroll to pobb.in",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Scrapes the POB code from maxroll.gg build links and redirects to pobb.in with it pre-filled.",
   "permissions": ["storage", "tabs"],
   "host_permissions": [
@@ -12,6 +12,11 @@
     "service_worker": "background.js"
   },
   "content_scripts": [
+    {
+      "matches": ["*://*.maxroll.gg/poe/build-guides/*"],
+      "js": ["content_buildguide.js"],
+      "run_at": "document_idle"
+    },
     {
       "matches": ["*://*.maxroll.gg/poe/pob/*"],
       "js": ["content_maxroll.js"],
