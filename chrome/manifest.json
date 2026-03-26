@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "PathToPobb.in",
+  "version": "1.5",
+  "description": "Automatically redirects Path of Exile build links from Maxroll and Mobalytics to pobb.in \u2014 code pre-filled, submitted instantly.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*.maxroll.gg/*",
+    "*://maxroll.gg/*",
+    "*://*.mobalytics.gg/*",
+    "*://mobalytics.gg/*",
+    "*://pobb.in/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.maxroll.gg/poe/*",
+        "*://maxroll.gg/poe/*"
+      ],
+      "js": [
+        "content_buildguide.js",
+        "content_maxroll.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://*.mobalytics.gg/poe/*",
+        "*://mobalytics.gg/poe/*",
+        "*://*.mobalytics.gg/poe",
+        "*://mobalytics.gg/poe",
+        "*://*.mobalytics.gg/poe/builds",
+        "*://mobalytics.gg/poe/builds"
+      ],
+      "js": [
+        "content_mobalytics.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://pobb.in/*"
+      ],
+      "js": [
+        "content_pobb.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "128": "icon128.png"
+  }
+}
