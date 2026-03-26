@@ -1,19 +1,29 @@
-# Maxroll → pobb.in
+# PathToPobb.in
 
 **A Chrome extension for Path of Exile players.**
 
-Detects any `maxroll.gg/poe/pob/` link, silently scrapes the Path of Building code in the background, and automatically redirects to pobb.in with the code pre-filled and submitted — turning a 3-step manual process into a single click.
+Automatically redirects PoE build links from Maxroll and Mobalytics to pobb.in — with the Path of Building code pre-filled and submitted instantly.
 
 ![Promo](https://raw.githubusercontent.com/wounded-deer-meliorne/maxroll-to-pobb.in/main/promo_1200x800.png)
 
 ---
 
+## Supported sources
+
+| Site | URL pattern | How it works |
+|------|-------------|--------------|
+| Maxroll (POB page) | `maxroll.gg/poe/pob/*` | Scrapes POB code from the page |
+| Maxroll (Build guide) | `maxroll.gg/poe/build-guides/*` | Finds the PoB Link button and follows it |
+| Mobalytics | `mobalytics.gg/poe/builds/*` | Reads the pobb.in URL directly from the page |
+
+---
+
 ## How it works
 
-1. You click any `maxroll.gg/poe/pob/*` link
-2. A loading screen covers the page instantly — you never see maxroll load
-3. The extension scrapes the POB code from the page in the background
-4. The tab redirects to `pobb.in` with the code auto-filled and the Create button clicked
+1. You click any supported build link
+2. A loading screen covers the page — you never see the source site load
+3. The extension grabs the POB code or pobb.in URL silently in the background
+4. The tab redirects to pobb.in with the code auto-filled and Create clicked
 5. Your shareable build link is ready
 
 ---
@@ -37,7 +47,9 @@ Detects any `maxroll.gg/poe/pob/` link, silently scrapes the Path of Building co
 |------|---------|
 | `manifest.json` | Extension config, permissions, content script rules |
 | `background.js` | Stores POB code in local storage, triggers tab redirect |
-| `content_maxroll.js` | Scrapes POB code from maxroll.gg using MutationObserver + polling |
+| `content_maxroll.js` | Scrapes POB code from maxroll.gg/poe/pob/* |
+| `content_buildguide.js` | Finds PoB Link button on maxroll.gg build guides |
+| `content_mobalytics.js` | Reads pobb.in URL from mobalytics.gg build pages |
 | `content_pobb.js` | Injects POB code into pobb.in and auto-clicks Create |
 | `icon128.png` | Extension icon |
 
@@ -45,25 +57,20 @@ Detects any `maxroll.gg/poe/pob/` link, silently scrapes the Path of Building co
 
 ## Troubleshooting
 
-### POB code not found
-If the extension fails to scrape, open DevTools (F12) on a `maxroll.gg/poe/pob/*` page and check the Console for `[maxroll-to-pobb]` log lines. The confirmed selector is `textarea.poe-textarea` — if Maxroll changes their markup, update this in `content_maxroll.js`.
-
-### pobb.in input not filling
-Open DevTools on `pobb.in` and check the Console. The extension targets `textarea[aria-label="Path of Building buildcode"]`. If pobb.in updates their markup, update the selector in `content_pobb.js`.
+Open DevTools (F12) on any supported page and check the Console for `[PathToPobb.in]` log lines.
 
 ---
 
 ## Contributing
 
-PRs welcome. If Maxroll or pobb.in update their DOM and break the selectors, please open an issue with the new element structure and I'll patch it quickly.
+PRs welcome. If any source site updates their DOM and breaks the selectors, open an issue with the new element structure.
 
 If this saved you time, please help me buy 6 slices of pizza for $6 at https://ko-fi.com/woundeddeermeliorne
-
 ---
 
 ## Disclaimer
 
-This extension is not affiliated with Maxroll, pobb.in, or Grinding Gear Games. Path of Exile is a trademark of Grinding Gear Games.
+Not affiliated with Maxroll, Mobalytics, pobb.in, or Grinding Gear Games. Path of Exile is a trademark of Grinding Gear Games.
 
 ---
 
