@@ -7,12 +7,20 @@
 
   const POB_CODE_REGEX = /^[A-Za-z0-9+/\-_]{80,}={0,2}$/;
 
-  // Only activate on specific build pages, not the directory index
+  // Only activate on specific build pages, not directory indexes
   function isBuildPage(url) {
     const path = url.replace(/https?:\/\/[^/]+/, '').replace(/\/$/, '');
     const parts = path.split('/').filter(Boolean);
-    // Must be /poe/builds/[slug] with a non-empty slug
-    return parts[0] === 'poe' && parts[1] === 'builds' && parts.length >= 3 && parts[2] !== '';
+    // /poe/builds/[slug]
+    if (parts[0] === 'poe' && parts[1] === 'builds' && parts.length >= 3 && parts[2] !== '') {
+      return true;
+    }
+    // /poe/profile/[user]/builds/[slug] e.g. .../profile/bigdaddygaming/builds/endgame-...
+    if (parts[0] === 'poe' && parts[1] === 'profile' && parts.length >= 5 &&
+        parts[3] === 'builds' && parts[4] !== '') {
+      return true;
+    }
+    return false;
   }
 
 
