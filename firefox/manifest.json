@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "PathToPobb.in",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Automatically redirects Path of Exile build links from Maxroll and Mobalytics to pobb.in \u2014 code pre-filled, submitted instantly.",
   "browser_specific_settings": {
     "gecko": {

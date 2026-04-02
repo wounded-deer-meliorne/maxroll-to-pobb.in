@@ -26,8 +26,16 @@
   let detecting = false;
 
   function isBuildPage(url) {
-    const path = url.replace(/https?:\/\/mobalytics\.gg/, '').replace(/\/$/, '');
-    return path.startsWith('/poe/builds/') && path.split('/').length >= 4 && path.split('/')[3] !== '';
+    const path = url.replace(/https?:\/\/[^/]+/, '').replace(/\/$/, '');
+    const parts = path.split('/').filter(Boolean);
+    if (parts[0] === 'poe' && parts[1] === 'builds' && parts.length >= 3 && parts[2] !== '') {
+      return true;
+    }
+    if (parts[0] === 'poe' && parts[1] === 'profile' && parts.length >= 5 &&
+        parts[3] === 'builds' && parts[4] !== '') {
+      return true;
+    }
+    return false;
   }
 
   function showOverlay() {

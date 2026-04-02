@@ -27,9 +27,17 @@ const RULES = [
     script: 'content_buildguide.js'
   },
   {
-    match: url => url.includes('mobalytics.gg/poe/builds/') &&
-                  // exclude the directory index page itself
-                  url.replace('mobalytics.gg/poe/builds', '').replace(/\/$/, '').length > 0,
+    match: url => {
+      if (!url.includes('mobalytics.gg')) return false;
+      // /poe/builds/[slug] — exclude bare /poe/builds index
+      if (url.includes('mobalytics.gg/poe/builds/')) {
+        const after = url.split('mobalytics.gg/poe/builds/')[1] || '';
+        const slug = after.split(/[?#]/)[0].replace(/\/$/, '');
+        if (slug.length > 0) return true;
+      }
+      // /poe/profile/[user]/builds/[slug]
+      return /mobalytics\.gg\/poe\/profile\/[^/]+\/builds\/[^/?#]+/.test(url);
+    },
     script: 'content_mobalytics.js'
   }
 ];
